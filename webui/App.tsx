@@ -1,18 +1,18 @@
-import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
-import { useEffect } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useDevToolsPluginClient, type EventSubscription } from "expo/devtools";
+import { useEffect } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  const client = useDevToolsPluginClient('network-plugin');
+  const client = useDevToolsPluginClient("network-plugin");
 
   useEffect(() => {
     const subscriptions: EventSubscription[] = [];
 
     subscriptions.push(
-      client?.addMessageListener('ping', (data) => {
+      client?.addMessageListener("ping", (data) => {
         alert(`Received ping from ${data.from}`);
-        client?.sendMessage('ping', { from: 'web' });
-      })
+        client?.sendMessage("ping", { from: "web" });
+      }),
     );
 
     return () => {
@@ -36,7 +36,7 @@ export default function App() {
       <Pressable
         onPress={() => {
           window.location.href =
-            window.location.href + '?devServer=localhost:8080';
+            window.location.href + "?devServer=localhost:8080";
         }}
       >
         <Text style={[styles.text, styles.textLink]}>
@@ -50,19 +50,19 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
     fontSize: 16,
     marginBottom: 16,
   },
   devHint: {
-    color: '#666',
+    color: "#666",
   },
   textLink: {
-    color: '#007AFF',
-    textDecorationLine: 'underline',
+    color: "#007AFF",
+    textDecorationLine: "underline",
   },
 });
