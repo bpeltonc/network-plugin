@@ -1,6 +1,20 @@
+import "@expo/metro-runtime";
 import { useDevToolsPluginClient, type EventSubscription } from "expo/devtools";
-import { useEffect } from "react";
-import { Pressable, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { FlatList } from "react-native";
+import { PaperProvider, MD3LightTheme, Divider } from "react-native-paper";
+
+import { getPluginElements } from "./PluginElements";
+import Header from "./components/Header";
+import TextInputWithButtons, {
+  TextInputWithButtonsProps,
+} from "./components/TextInputWithButtons";
+import { BASE_ELEMENT_WIDTH, theme as customTheme } from "./theme";
+
+const theme = {
+  ...MD3LightTheme,
+  colors: customTheme.colors,
+};
 
 export default function App() {
   const client = useDevToolsPluginClient("network-plugin");
@@ -22,72 +36,31 @@ export default function App() {
     };
   }, [client]);
 
+  const Separator = () => (
+    <Divider style={{ width: BASE_ELEMENT_WIDTH, alignSelf: "center" }} />
+  );
+
+  const renderElement = ({ item }: { item: TextInputWithButtonsProps }) => {
+    return <TextInputWithButtons {...item} />;
+  };
+
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Text
-        style={{
-          fontSize: 16,
-          marginBottom: 16,
+    <PaperProvider theme={theme}>
+      <Header />
+      <Divider />
+      <FlatList
+        contentContainerStyle={{
+          maxWidth: BASE_ELEMENT_WIDTH * 3, // No more than 2 elements per row
+          flexDirection: "row",
+          justifyContent: "center",
+          alignSelf: "center",
+          flexWrap: "wrap",
+          alignContent: "center",
         }}
-      >
-        That's the Web UI of the DevTools plugin. You can now edit the UI in the
-        App.tsx.
-      </Text>
-      <Text
-        style={[
-          {
-            fontSize: 16,
-            marginBottom: 16,
-          },
-          {
-            color: "#666",
-          },
-        ]}
-      >
-        For development, you can also add `devServer` query string to specify
-        the WebSocket target to the app's dev server.
-      </Text>
-      <Text
-        style={[
-          {
-            fontSize: 16,
-            marginBottom: 16,
-          },
-          {
-            color: "#666",
-          },
-        ]}
-      >
-        For example:
-      </Text>
-      <Pressable
-        onPress={() => {
-          window.location.href =
-            window.location.href + "?devServer=localhost:8080";
-        }}
-      >
-        <Text
-          style={[
-            {
-              fontSize: 16,
-              marginBottom: 16,
-            },
-            {
-              color: "#007AFF",
-              textDecorationLine: "underline",
-            },
-          ]}
-        >
-          {`${window.location.href}?devServer=localhost:8080`}
-        </Text>
-      </Pressable>
-    </View>
+        data={getPluginElements(client)}
+        renderItem={(item) => renderElement(item)}
+        ItemSeparatorComponent={Separator}
+      />
+    </PaperProvider>
   );
 }
