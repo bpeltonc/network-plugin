@@ -29,7 +29,7 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
       description: "Return a specific status code for the intercepted request",
       sampleText: "E.g. 200, 404, 500",
       label: "Status Code",
-      placeholder: "Enter response status code",
+      placeholder: "503",
       size: InputSize.Small,
       onReset: () => sendMessage(MessageString.RESET_STATUS_CODE),
       onSave: (statusCode: string) =>
