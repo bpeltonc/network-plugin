@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== "production") {
     useNetworkPlugin = require("./useNetworkPlugin").useNetworkPlugin;
 }
 else {
+    // @ts-ignore
     useNetworkPlugin = () => { };
 }
 //# sourceMappingURL=index.js.map

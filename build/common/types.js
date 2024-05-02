@@ -1,7 +1,6 @@
 // TODO: bp - DRY this up by creating a shared type file that the webui app can import
 export var MessageString;
 (function (MessageString) {
-    MessageString["PING"] = "ping";
     MessageString["SET_ENDPOINT"] = "set-endpoint";
     MessageString["RESET_ENDPOINT"] = "reset-endpoint";
     MessageString["SET_STATUS_CODE"] = "set-status-code";

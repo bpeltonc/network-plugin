@@ -1,5 +1,4 @@
 export declare enum MessageString {
-    PING = "ping",
     SET_ENDPOINT = "set-endpoint",
     RESET_ENDPOINT = "reset-endpoint",
     SET_STATUS_CODE = "set-status-code",
@@ -16,7 +15,6 @@ export type MessagePayload<T extends MessageString> = {
     params: MessageParams[T];
 };
 export type MessageParams = {
-    [MessageString.PING]: undefined;
     [MessageString.SET_ENDPOINT]: {
         endpoint: string;
     };

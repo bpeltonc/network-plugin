@@ -1,7 +1,6 @@
 // TODO: bp - DRY this up by creating a shared type file that the webui app can import
 
 export enum MessageString {
-  PING = "ping",
   SET_ENDPOINT = "set-endpoint",
   RESET_ENDPOINT = "reset-endpoint",
   SET_STATUS_CODE = "set-status-code",
@@ -20,7 +19,6 @@ export type MessagePayload<T extends MessageString> = {
 };
 
 export type MessageParams = {
-  [MessageString.PING]: undefined;
   [MessageString.SET_ENDPOINT]: { endpoint: string };
   [MessageString.RESET_ENDPOINT]: undefined;
   [MessageString.SET_STATUS_CODE]: { statusCode: string };
