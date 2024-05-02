@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { View } from "react-native";
-import { Button, TextInput, Text, TextInputProps } from "react-native-paper";
+import {
+  Button,
+  TextInput,
+  Text,
+  TextInputProps,
+  HelperText,
+} from "react-native-paper";
+import { ZodError, ZodTypeAny } from "zod";
 
 import { BASE_PADDING, BASE_ELEMENT_WIDTH } from "../theme";
 
@@ -17,12 +24,48 @@ export type TextInputWithButtonsProps = {
   size: InputSize;
   onReset: () => void;
   onSave: (data: string) => void;
+  validator?: ZodTypeAny;
+  validationTransformer?: (data: string) => any;
+  customErrorMessage?: string;
 } & Partial<TextInputProps>;
 
 export default function TextInputWithButtons(props: TextInputWithButtonsProps) {
-  const { title, description, sampleText, onReset, onSave } = props;
+  const {
+    title,
+    description,
+    sampleText,
+    onReset,
+    onSave,
+    validator,
+    validationTransformer,
+    customErrorMessage,
+  } = props;
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>();
+  const [error, setError] = useState<string>();
+
+  const handleSave = () => {
+    if (!value) {
+      return;
+    }
+    let transformedValue = value;
+    if (validator) {
+      try {
+        transformedValue = validationTransformer?.(value);
+        validator.parse(transformedValue);
+      } catch (error) {
+        if (error instanceof ZodError) {
+          if (error.issues[0].code === "invalid_type" && customErrorMessage) {
+            setError(customErrorMessage);
+          } else {
+            setError(error.issues[0].message);
+          }
+        }
+        return;
+      }
+    }
+    onSave(transformedValue);
+  };
 
   return (
     <View
@@ -51,7 +94,12 @@ export default function TextInputWithButtons(props: TextInputWithButtonsProps) {
         {...props}
         onChangeText={setValue}
         value={value}
+        error={!!error}
+        onSubmitEditing={handleSave}
       />
+      <HelperText type="error" visible={!!error}>
+        {error}
+      </HelperText>
       <View
         style={{
           flexDirection: "row",
@@ -70,11 +118,10 @@ export default function TextInputWithButtons(props: TextInputWithButtonsProps) {
         >
           Reset
         </Button>
-        <Button mode="contained" onPress={() => onSave(value)}>
+        <Button mode="contained" onPress={handleSave}>
           Save
         </Button>
       </View>
-      {/* <Divider style={{ width: BASE_ELEMENT_WIDTH }} /> */}
     </View>
   );
 }

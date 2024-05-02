@@ -1,4 +1,6 @@
-export let useNetworkPlugin: typeof import("./useNetworkPlugin").useNetworkPlugin;
+export let useNetworkPlugin:
+  | typeof import("./useNetworkPlugin").useNetworkPlugin
+  | Function;
 
 // @ts-ignore process.env.NODE_ENV is defined by metro transform plugins
 if (process.env.NODE_ENV !== "production") {

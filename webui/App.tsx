@@ -24,7 +24,7 @@ export default function App() {
 
     subscriptions.push(
       client?.addMessageListener("ping", (data) => {
-        alert(`Received ping from ${data.from}`);
+        alert(`Received ping from ${data.from}. Client connected: ${!!client}`);
         client?.sendMessage("ping", { from: "web" });
       }),
     );

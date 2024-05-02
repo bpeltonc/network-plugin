@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import {
   InputSize,
   TextInputWithButtonsProps,
@@ -51,15 +53,24 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
       title: "Response Headers",
       description:
         "Return specific response headers for the intercepted request",
-      sampleText:
-        "E.g. [Content-Type: application/json, X-Custom-Header: value]",
+      sampleText: "E.g. Content-Type: application/json, X-Custom-Header: value",
       label: "Response Headers",
       placeholder: "Enter response headers as array of key-value pairs",
       size: InputSize.Large,
       onReset: () => sendMessage(MessageString.RESET_HEADERS),
       onSave: (headers: string) =>
-        sendMessage(MessageString.SET_HEADERS, { headers }),
+        sendMessage(MessageString.SET_HEADERS, {
+          headers: JSON.stringify(headers),
+        }),
       multiline: true,
+      validator: z.array(z.record(z.string(), z.string())),
+      validationTransformer: (value: string): Record<string, string>[] => {
+        return value?.split(",").map((pair) => ({
+          [pair.split(":")[0].trim()]: pair.split(":")[1].trim(),
+        }));
+      },
+      customErrorMessage:
+        "Must be in key-value pair format -- e.g. key: value, key2: value2",
     },
     {
       title: "Response Delay",
