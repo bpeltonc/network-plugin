@@ -40,10 +40,10 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
     {
       title: "Response Body",
       description:
-        "Return a specific response body for the intercepted request",
-      sampleText: `E.g. {"message": "Hello, world!"}, <html>...</html>`,
+        "Return a specific response body for the intercepted request (in valid JSON format)",
+      sampleText: `E.g. {"message": "Hello, world!"}`,
       label: "Response Body",
-      placeholder: "Enter response body",
+      placeholder: "Enter response body as JSON object",
       size: InputSize.Large,
       onReset: () => sendMessage(MessageString.RESET_BODY),
       onSave: (body: string) => sendMessage(MessageString.SET_BODY, { body }),
@@ -52,10 +52,10 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
     {
       title: "Response Headers",
       description:
-        "Return specific response headers for the intercepted request",
-      sampleText: "E.g. Content-Type: application/json, X-Custom-Header: value",
+        "Return specific response headers for the intercepted request (in valid JSON format)",
+      sampleText: `{"Content-Type": "application/json", "X-Custom-Header": "value"`,
       label: "Response Headers",
-      placeholder: "Enter response headers as array of key-value pairs",
+      placeholder: "Enter response headers as JSON object",
       size: InputSize.Large,
       onReset: () => sendMessage(MessageString.RESET_HEADERS),
       onSave: (headers: string) =>
@@ -63,8 +63,6 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
           headers,
         }),
       multiline: true,
-      customErrorMessage:
-        "Must be in key-value pair format -- e.g. key: value, key2: value2",
     },
     {
       title: "Response Delay",

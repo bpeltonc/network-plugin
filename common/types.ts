@@ -35,5 +35,3 @@ export type MessagePayloadWithFrom<T extends MessageString> =
   MessagePayload<T> & {
     from: "web" | "app";
   };
-
-export type ResponseHeaders = { [key: string]: string }[];

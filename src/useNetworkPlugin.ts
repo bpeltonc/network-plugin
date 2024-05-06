@@ -1,7 +1,7 @@
 import { useDevToolsPluginClient, type EventSubscription } from "expo/devtools";
 import { useEffect, useState } from "react";
 
-import { MessageString, ResponseHeaders } from "../common/types";
+import { MessageString } from "../common/types";
 
 export function useNetworkPlugin() {
   // TODO: bp - Make useDevToolsPluginClient take a generic type that can be used to get strong type-safety for all its methods
@@ -9,7 +9,7 @@ export function useNetworkPlugin() {
   const [interceptUrl, setInterceptUrl] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [responseBody, setResponseBody] = useState("");
-  const [responseHeaders, setResponseHeaders] = useState<ResponseHeaders[]>([]);
+  const [responseHeaders, setResponseHeaders] = useState("");
   const [responseDelay, setResponseDelay] = useState(0);
 
   useEffect(() => {
@@ -35,10 +35,10 @@ export function useNetworkPlugin() {
         setResponseBody("");
       }),
       client?.addMessageListener?.(MessageString.SET_HEADERS, (data) => {
-        setResponseHeaders(JSON.parse(data.headers));
+        setResponseHeaders(data.headers);
       }),
       client?.addMessageListener?.(MessageString.RESET_HEADERS, () => {
-        setResponseHeaders([]);
+        setResponseHeaders("");
       }),
       client?.addMessageListener?.(MessageString.SET_DELAY, (data) => {
         setResponseDelay(parseInt(data.delay, 10));
