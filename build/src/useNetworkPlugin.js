@@ -7,7 +7,7 @@ export function useNetworkPlugin() {
     const [interceptUrl, setInterceptUrl] = useState("");
     const [statusCode, setStatusCode] = useState(0);
     const [responseBody, setResponseBody] = useState("");
-    const [responseHeaders, setResponseHeaders] = useState([]);
+    const [responseHeaders, setResponseHeaders] = useState("");
     const [responseDelay, setResponseDelay] = useState(0);
     useEffect(() => {
         const subscriptions = [];
@@ -24,9 +24,9 @@ export function useNetworkPlugin() {
         }), client?.addMessageListener?.(MessageString.RESET_BODY, () => {
             setResponseBody("");
         }), client?.addMessageListener?.(MessageString.SET_HEADERS, (data) => {
-            setResponseHeaders(JSON.parse(data.headers));
+            setResponseHeaders(data.headers);
         }), client?.addMessageListener?.(MessageString.RESET_HEADERS, () => {
-            setResponseHeaders([]);
+            setResponseHeaders("");
         }), client?.addMessageListener?.(MessageString.SET_DELAY, (data) => {
             setResponseDelay(parseInt(data.delay, 10));
         }), client?.addMessageListener?.(MessageString.RESET_DELAY, () => {

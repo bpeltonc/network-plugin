@@ -1,4 +1,3 @@
-import { ResponseHeaders } from "../common/types";
 export declare function useNetworkPlugin(): {
     interceptUrl: string;
     setInterceptUrl: import("react").Dispatch<import("react").SetStateAction<string>>;
@@ -6,8 +5,8 @@ export declare function useNetworkPlugin(): {
     setStatusCode: import("react").Dispatch<import("react").SetStateAction<number>>;
     responseBody: string;
     setResponseBody: import("react").Dispatch<import("react").SetStateAction<string>>;
-    responseHeaders: ResponseHeaders[];
-    setResponseHeaders: import("react").Dispatch<import("react").SetStateAction<ResponseHeaders[]>>;
+    responseHeaders: string;
+    setResponseHeaders: import("react").Dispatch<import("react").SetStateAction<string>>;
     responseDelay: number;
     setResponseDelay: import("react").Dispatch<import("react").SetStateAction<number>>;
 } | undefined;
