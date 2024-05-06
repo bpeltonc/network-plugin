@@ -60,15 +60,9 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
       onReset: () => sendMessage(MessageString.RESET_HEADERS),
       onSave: (headers: string) =>
         sendMessage(MessageString.SET_HEADERS, {
-          headers: JSON.stringify(headers),
+          headers,
         }),
       multiline: true,
-      validator: z.array(z.record(z.string(), z.string())),
-      validationTransformer: (value: string): Record<string, string>[] => {
-        return value?.split(",").map((pair) => ({
-          [pair.split(":")[0].trim()]: pair.split(":")[1].trim(),
-        }));
-      },
       customErrorMessage:
         "Must be in key-value pair format -- e.g. key: value, key2: value2",
     },
