@@ -1,6 +1,6 @@
 import "@expo/metro-runtime";
 import { useDevToolsPluginClient, type EventSubscription } from "expo/devtools";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { PaperProvider, MD3LightTheme, Divider } from "react-native-paper";
 
@@ -10,6 +10,7 @@ import TextInputWithButtons, {
   TextInputWithButtonsProps,
 } from "./components/TextInputWithButtons";
 import { BASE_ELEMENT_WIDTH, theme as customTheme } from "./theme";
+import { FaultInjectionSettings, MessageString } from "./types";
 
 const theme = {
   ...MD3LightTheme,
@@ -17,16 +18,20 @@ const theme = {
 };
 
 export default function App() {
+  const [initialSettings, setInitialSettings] =
+    useState<FaultInjectionSettings>();
   const client = useDevToolsPluginClient("network-plugin");
 
   useEffect(() => {
     const subscriptions: EventSubscription[] = [];
 
     subscriptions.push(
-      client?.addMessageListener("ping", (data) => {
-        alert(`Received ping from ${data.from}. Client connected: ${!!client}`);
-        client?.sendMessage("ping", { from: "web" });
-      }),
+      client?.addMessageListener(
+        MessageString.SET_SETTINGS,
+        (data: FaultInjectionSettings) => {
+          setInitialSettings(data);
+        },
+      ),
     );
 
     return () => {
@@ -41,7 +46,13 @@ export default function App() {
   );
 
   const renderElement = ({ item }: { item: TextInputWithButtonsProps }) => {
-    return <TextInputWithButtons {...item} />;
+    return (
+      <TextInputWithButtons
+        {...item}
+        // @ts-expect-error -- The type is checked on its way into the client -- We won't worry about it here
+        initialValue={initialSettings?.[item.key] ?? undefined}
+      />
+    );
   };
 
   return (

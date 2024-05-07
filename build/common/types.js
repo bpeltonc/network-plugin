@@ -11,5 +11,6 @@ export var MessageString;
     MessageString["RESET_HEADERS"] = "reset-headers";
     MessageString["SET_DELAY"] = "set-delay";
     MessageString["RESET_DELAY"] = "reset-delay";
+    MessageString["SET_SETTINGS"] = "set-settings";
 })(MessageString || (MessageString = {}));
 //# sourceMappingURL=types.js.map

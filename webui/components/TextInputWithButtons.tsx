@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import {
   Button,
@@ -9,6 +9,7 @@ import {
 } from "react-native-paper";
 import { ZodError, ZodTypeAny } from "zod";
 
+import { FaultInjectionSettings } from "../../common/types";
 import { BASE_PADDING, BASE_ELEMENT_WIDTH } from "../theme";
 
 export enum InputSize {
@@ -27,6 +28,8 @@ export type TextInputWithButtonsProps = {
   validator?: ZodTypeAny;
   validationTransformer?: (data: string) => any;
   customErrorMessage?: string;
+  key: keyof FaultInjectionSettings;
+  initialValue?: string;
 } & Partial<TextInputProps>;
 
 export default function TextInputWithButtons(props: TextInputWithButtonsProps) {
@@ -39,6 +42,7 @@ export default function TextInputWithButtons(props: TextInputWithButtonsProps) {
     validator,
     validationTransformer,
     customErrorMessage,
+    initialValue,
   } = props;
 
   const [value, setValue] = useState<string>();
@@ -66,6 +70,12 @@ export default function TextInputWithButtons(props: TextInputWithButtonsProps) {
     }
     onSave(transformedValue);
   };
+
+  useEffect(() => {
+    if (initialValue) {
+      setValue(initialValue);
+    }
+  }, [initialValue]);
 
   return (
     <View

@@ -1,3 +1,5 @@
+// TODO: bp - DRY this up by creating a shared type file that the webui app can import
+
 export enum MessageString {
   SET_ENDPOINT = "set-endpoint",
   RESET_ENDPOINT = "reset-endpoint",
@@ -9,6 +11,7 @@ export enum MessageString {
   RESET_HEADERS = "reset-headers",
   SET_DELAY = "set-delay",
   RESET_DELAY = "reset-delay",
+  SET_SETTINGS = "set-settings",
 }
 
 export type MessagePayload<T extends MessageString> = {
@@ -27,4 +30,18 @@ export type MessageParams = {
   [MessageString.RESET_HEADERS]: undefined;
   [MessageString.SET_DELAY]: { delay: string };
   [MessageString.RESET_DELAY]: undefined;
+  [MessageString.SET_SETTINGS]: FaultInjectionSettings;
+};
+
+export type MessagePayloadWithFrom<T extends MessageString> =
+  MessagePayload<T> & {
+    from: "web" | "app";
+  };
+
+export type FaultInjectionSettings = {
+  interceptUrl: string | null;
+  statusCode: number | null;
+  responseDelay: number | null;
+  responseBody: string | null;
+  responseHeaders: string | null;
 };

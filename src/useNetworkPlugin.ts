@@ -1,7 +1,7 @@
 import { useDevToolsPluginClient, type EventSubscription } from "expo/devtools";
 import { useEffect, useState } from "react";
 
-import { MessageString } from "../common/types";
+import { FaultInjectionSettings, MessageString } from "../common/types";
 
 export function useNetworkPlugin() {
   // TODO: bp - Make useDevToolsPluginClient take a generic type that can be used to get strong type-safety for all its methods
@@ -16,6 +16,25 @@ export function useNetworkPlugin() {
   const [responseBody, setResponseBody] = useState<string | null>();
   const [responseHeaders, setResponseHeaders] = useState<string | null>();
   const [responseDelay, setResponseDelay] = useState<number | null>();
+
+  const setSettings = (settings: FaultInjectionSettings) => {
+    if (settings.interceptUrl) {
+      setInterceptUrl(settings.interceptUrl);
+    }
+    if (settings.statusCode) {
+      setStatusCode(settings.statusCode);
+    }
+    if (settings.responseBody) {
+      setResponseBody(settings.responseBody);
+    }
+    if (settings.responseHeaders) {
+      setResponseHeaders(settings.responseHeaders);
+    }
+    if (settings.responseDelay) {
+      setResponseDelay(settings.responseDelay);
+    }
+    client?.sendMessage(MessageString.SET_SETTINGS, settings);
+  };
 
   useEffect(() => {
     const subscriptions: EventSubscription[] = [];
@@ -67,14 +86,10 @@ export function useNetworkPlugin() {
 
   return {
     interceptUrl,
-    setInterceptUrl,
     statusCode,
-    setStatusCode,
     responseBody,
-    setResponseBody,
     responseHeaders,
-    setResponseHeaders,
     responseDelay,
-    setResponseDelay,
+    setSettings,
   };
 }

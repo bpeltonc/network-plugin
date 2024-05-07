@@ -15,6 +15,7 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
   }
   return [
     {
+      key: "interceptUrl",
       title: "Endpoint Matcher",
       description:
         "Include all or part of the request URL to match for interception",
@@ -27,6 +28,7 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
         sendMessage(MessageString.SET_ENDPOINT, { endpoint }),
     },
     {
+      key: "statusCode",
       title: "Response Status Code",
       description: "Return a specific status code for the intercepted request",
       sampleText: "E.g. 200, 404, 500",
@@ -38,6 +40,7 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
         sendMessage(MessageString.SET_STATUS_CODE, { statusCode }),
     },
     {
+      key: "responseBody",
       title: "Response Body",
       description:
         "Return a specific response body for the intercepted request (in valid JSON format)",
@@ -50,6 +53,7 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
       multiline: true,
     },
     {
+      key: "responseHeaders",
       title: "Response Headers",
       description:
         "Return specific response headers for the intercepted request (in valid JSON format)",
@@ -65,6 +69,7 @@ export const getPluginElements = (client: any): TextInputWithButtonsProps[] => {
       multiline: true,
     },
     {
+      key: "responseDelay",
       title: "Response Delay",
       description: "Delay the response by a specific number of milliseconds",
       sampleText: "E.g. 1000, 5000, 10000",

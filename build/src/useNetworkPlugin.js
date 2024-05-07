@@ -13,6 +13,24 @@ export function useNetworkPlugin() {
     const [responseBody, setResponseBody] = useState();
     const [responseHeaders, setResponseHeaders] = useState();
     const [responseDelay, setResponseDelay] = useState();
+    const setSettings = (settings) => {
+        if (settings.interceptUrl) {
+            setInterceptUrl(settings.interceptUrl);
+        }
+        if (settings.statusCode) {
+            setStatusCode(settings.statusCode);
+        }
+        if (settings.responseBody) {
+            setResponseBody(settings.responseBody);
+        }
+        if (settings.responseHeaders) {
+            setResponseHeaders(settings.responseHeaders);
+        }
+        if (settings.responseDelay) {
+            setResponseDelay(settings.responseDelay);
+        }
+        client?.sendMessage(MessageString.SET_SETTINGS, settings);
+    };
     useEffect(() => {
         const subscriptions = [];
         subscriptions.push(client?.addMessageListener?.(MessageString.SET_ENDPOINT, (data) => {
@@ -48,15 +66,11 @@ export function useNetworkPlugin() {
     }
     return {
         interceptUrl,
-        setInterceptUrl,
         statusCode,
-        setStatusCode,
         responseBody,
-        setResponseBody,
         responseHeaders,
-        setResponseHeaders,
         responseDelay,
-        setResponseDelay,
+        setSettings,
     };
 }
 //# sourceMappingURL=useNetworkPlugin.js.map
