@@ -4,33 +4,37 @@ import { MessageString } from "../common/types";
 export function useNetworkPlugin() {
     // TODO: bp - Make useDevToolsPluginClient take a generic type that can be used to get strong type-safety for all its methods
     const client = useDevToolsPluginClient("network-plugin");
-    const [interceptUrl, setInterceptUrl] = useState("");
-    const [statusCode, setStatusCode] = useState(0);
-    const [responseBody, setResponseBody] = useState("");
-    const [responseHeaders, setResponseHeaders] = useState("");
-    const [responseDelay, setResponseDelay] = useState(0);
+    // There are three states for each of these values:
+    // - undefined: the value has not been set (the user has not interacted with the plugin)
+    // - null: the value has been reset (the user has interacted with the plugin but reset the value)
+    // - string or number: the value has been set (the user has interacted with the plugin and set the value)
+    const [interceptUrl, setInterceptUrl] = useState();
+    const [statusCode, setStatusCode] = useState();
+    const [responseBody, setResponseBody] = useState();
+    const [responseHeaders, setResponseHeaders] = useState();
+    const [responseDelay, setResponseDelay] = useState();
     useEffect(() => {
         const subscriptions = [];
         subscriptions.push(client?.addMessageListener?.(MessageString.SET_ENDPOINT, (data) => {
             setInterceptUrl(data.endpoint);
         }), client?.addMessageListener?.(MessageString.RESET_ENDPOINT, () => {
-            setInterceptUrl("");
+            setInterceptUrl(null);
         }), client?.addMessageListener?.(MessageString.SET_STATUS_CODE, (data) => {
             setStatusCode(parseInt(data.statusCode, 10));
         }), client?.addMessageListener?.(MessageString.RESET_STATUS_CODE, () => {
-            setStatusCode(0);
+            setStatusCode(null);
         }), client?.addMessageListener?.(MessageString.SET_BODY, (data) => {
             setResponseBody(data.body);
         }), client?.addMessageListener?.(MessageString.RESET_BODY, () => {
-            setResponseBody("");
+            setResponseBody(null);
         }), client?.addMessageListener?.(MessageString.SET_HEADERS, (data) => {
             setResponseHeaders(data.headers);
         }), client?.addMessageListener?.(MessageString.RESET_HEADERS, () => {
-            setResponseHeaders("");
+            setResponseHeaders(null);
         }), client?.addMessageListener?.(MessageString.SET_DELAY, (data) => {
             setResponseDelay(parseInt(data.delay, 10));
         }), client?.addMessageListener?.(MessageString.RESET_DELAY, () => {
-            setResponseDelay(0);
+            setResponseDelay(null);
         }));
         return () => {
             for (const subscription of subscriptions) {

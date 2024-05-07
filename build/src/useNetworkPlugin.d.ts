@@ -1,13 +1,13 @@
 export declare function useNetworkPlugin(): {
-    interceptUrl: string;
-    setInterceptUrl: import("react").Dispatch<import("react").SetStateAction<string>>;
-    statusCode: number;
-    setStatusCode: import("react").Dispatch<import("react").SetStateAction<number>>;
-    responseBody: string;
-    setResponseBody: import("react").Dispatch<import("react").SetStateAction<string>>;
-    responseHeaders: string;
-    setResponseHeaders: import("react").Dispatch<import("react").SetStateAction<string>>;
-    responseDelay: number;
-    setResponseDelay: import("react").Dispatch<import("react").SetStateAction<number>>;
+    interceptUrl: string | null | undefined;
+    setInterceptUrl: import("react").Dispatch<import("react").SetStateAction<string | null | undefined>>;
+    statusCode: number | null | undefined;
+    setStatusCode: import("react").Dispatch<import("react").SetStateAction<number | null | undefined>>;
+    responseBody: string | null | undefined;
+    setResponseBody: import("react").Dispatch<import("react").SetStateAction<string | null | undefined>>;
+    responseHeaders: string | null | undefined;
+    setResponseHeaders: import("react").Dispatch<import("react").SetStateAction<string | null | undefined>>;
+    responseDelay: number | null | undefined;
+    setResponseDelay: import("react").Dispatch<import("react").SetStateAction<number | null | undefined>>;
 } | undefined;
 //# sourceMappingURL=useNetworkPlugin.d.ts.map
