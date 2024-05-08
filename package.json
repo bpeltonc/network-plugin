@@ -1,6 +1,6 @@
 {
   "name": "network-plugin",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A plugin to intercept and modify network traffic",
   "main": "build/index.js",
   "types": "build/index.d.ts",

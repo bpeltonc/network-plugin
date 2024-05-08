@@ -22,14 +22,16 @@ export default function App() {
     useState<FaultInjectionSettings>();
   const client = useDevToolsPluginClient("network-plugin");
 
+  console.log("Initial settings", initialSettings);
+
   useEffect(() => {
     const subscriptions: EventSubscription[] = [];
 
     subscriptions.push(
       client?.addMessageListener(
         MessageString.SET_SETTINGS,
-        (data: FaultInjectionSettings) => {
-          setInitialSettings(data);
+        (data: { settings: string }) => {
+          setInitialSettings(JSON.parse(data.settings));
         },
       ),
     );
