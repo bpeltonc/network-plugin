@@ -33,7 +33,10 @@ export function useNetworkPlugin() {
     if (settings.responseDelay) {
       setResponseDelay(settings.responseDelay);
     }
-    client?.sendMessage(MessageString.SET_SETTINGS, settings);
+    client?.sendMessage(MessageString.SET_SETTINGS, {
+      settings: JSON.stringify(settings),
+      from: "app",
+    });
   };
 
   useEffect(() => {
