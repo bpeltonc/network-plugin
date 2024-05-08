@@ -1,5 +1,6 @@
 import { FaultInjectionSettings } from "../common/types";
 export declare function useNetworkPlugin(): {
+    isClientReady: boolean;
     interceptUrl: string | null | undefined;
     statusCode: number | null | undefined;
     responseBody: string | null | undefined;

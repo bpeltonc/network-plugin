@@ -1,6 +1,6 @@
 {
   "name": "network-plugin-webui",
-  "version": "0.0.8-private",
+  "version": "0.0.9-private",
   "main": "expo/AppEntry.js",
   "scripts": {
     "start": "expo start",

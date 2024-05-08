@@ -1,1 +1,1 @@
-{"version":3,"file":"useNetworkPlugin.d.ts","sourceRoot":"","sources":["../../src/useNetworkPlugin.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,sBAAsB,EAAiB,MAAM,iBAAiB,CAAC;AAExE,wBAAgB,gBAAgB;;;;;;4BAcC,sBAAsB;cA8EtD"}
+{"version":3,"file":"useNetworkPlugin.d.ts","sourceRoot":"","sources":["../../src/useNetworkPlugin.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,sBAAsB,EAAiB,MAAM,iBAAiB,CAAC;AAExE,wBAAgB,gBAAgB;;;;;;;4BAgBC,sBAAsB;cAuFtD"}

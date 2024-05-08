@@ -13,6 +13,7 @@ export function useNetworkPlugin() {
     const [responseBody, setResponseBody] = useState();
     const [responseHeaders, setResponseHeaders] = useState();
     const [responseDelay, setResponseDelay] = useState();
+    const [isClientReady, setIsClientReady] = useState(false);
     const setSettings = (settings) => {
         if (settings.interceptUrl) {
             setInterceptUrl(settings.interceptUrl);
@@ -34,6 +35,13 @@ export function useNetworkPlugin() {
             from: "app",
         });
     };
+    // This is kind of a hack. The client remains unitialized for a short time when the app starts.
+    // This way, we check that the client is indeed ready to send messages before we start sending them.
+    useEffect(() => {
+        if (!!client && !!client.sendMessage) {
+            setIsClientReady(true);
+        }
+    }, [client]);
     useEffect(() => {
         const subscriptions = [];
         subscriptions.push(client?.addMessageListener?.(MessageString.SET_ENDPOINT, (data) => {
@@ -68,6 +76,7 @@ export function useNetworkPlugin() {
         return;
     }
     return {
+        isClientReady,
         interceptUrl,
         statusCode,
         responseBody,
